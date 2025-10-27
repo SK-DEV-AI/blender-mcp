@@ -1,0 +1,8 @@
+{
+  "test_template": {
+    "uses": 1,
+    "total_time": 0.0,
+    "successes": 1,
+    "success_rate": 1.0
+  }
+}

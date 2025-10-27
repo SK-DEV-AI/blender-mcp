@@ -1,0 +1,13 @@
+{
+  "type": "lighting",
+  "tags": ["studio", "lighting", "three_point"],
+  "description": "Three-point studio lighting setup",
+  "actions": [
+    {
+      "tool": "execute_blender_code",
+      "params": {
+        "code": "import bpy\n\n# Key light (main)\nkey_light = bpy.data.lights.new(name='Key_Light', type='POINT')\nkey_light.energy = 1000\nkey_obj = bpy.data.objects.new(name='Key_Light', object_data=key_light)\nkey_obj.location = (5, -5, 5)\nbpy.context.scene.collection.objects.link(key_obj)\n\n# Fill light\nfill_light = bpy.data.lights.new(name='Fill_Light', type='POINT')\nfill_light.energy = 300\nfill_obj = bpy.data.objects.new(name='Fill_Light', object_data=fill_light)\nfill_obj.location = (-3, -3, 3)\nbpy.context.scene.collection.objects.link(fill_obj)\n\n# Rim light\nrim_light = bpy.data.lights.new(name='Rim_Light', type='POINT')\nrim_light.energy = 500\nrim_obj = bpy.data.objects.new(name='Rim_Light', object_data=rim_light)\nrim_obj.location = (0, 5, 4)\nbpy.context.scene.collection.objects.link(rim_obj)\n\n# Set world background to dark\nbpy.context.scene.world.node_tree.nodes['Background'].inputs[0].default_value = (0.1, 0.1, 0.1, 1)\n\nprint('Three-point studio lighting setup complete')"
+      }
+    }
+  ]
+}

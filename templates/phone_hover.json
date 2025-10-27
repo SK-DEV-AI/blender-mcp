@@ -1,0 +1,13 @@
+{
+  "type": "animation",
+  "tags": ["gadget", "hover", "rotation"],
+  "description": "Phone model with hover and rotation animation",
+  "actions": [
+    {
+      "tool": "execute_blender_code",
+      "params": {
+        "code": "import bpy\nobj = bpy.data.objects.get('Phone')\nif obj:\n    obj.location.z += 1.0\n    obj.keyframe_insert(data_path='location', frame=1)\n    obj.location.z -= 1.0\n    obj.keyframe_insert(data_path='location', frame=60)\n    obj.rotation_euler.z += 6.28318\n    obj.keyframe_insert(data_path='rotation_euler', frame=60)\n    print('Hover and rotation animation applied')\nelse:\n    raise ValueError('Phone object not found')"
+      }
+    }
+  ]
+}
