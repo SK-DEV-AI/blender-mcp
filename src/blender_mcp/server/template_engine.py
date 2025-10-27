@@ -28,6 +28,8 @@ class TemplateManager:
     """
 
     def __init__(self, templates_dir: str = "templates", repo_path: Optional[str] = None):
+        # Use environment variables for flexible configuration
+        templates_dir = os.getenv("TEMPLATES_DIR", templates_dir)
         self.dir = Path(templates_dir)
         self.dir.mkdir(exist_ok=True)
         self.repo = None

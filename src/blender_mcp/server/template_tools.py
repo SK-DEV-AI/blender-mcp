@@ -59,8 +59,14 @@ def apply_template(name: str, overrides: Optional[Dict[str, Any]] = None) -> str
         data = template_manager.load_template(name)
         if overrides:
             data = deep_merge(data, overrides)
-        # Execute actions (call other MCP tools)
+        # Validate template actions
         for step in data.get("actions", []):
+            if not all(k in step for k in ['tool', 'params']):
+                raise ToolError(f"Invalid action in template '{name}': Missing 'tool' or 'params'")
+        # Validate and execute actions (call other MCP tools)
+        for step in data.get("actions", []):
+            if not isinstance(step, dict) or step.get("tool") is None or step.get("params") is None:
+                raise ToolError(f"Invalid action structure in template '{name}': Requires 'tool' and 'params' keys")
             tool_name = step.get("tool")
             params = step.get("params", {})
             logger.info(f"Applying step tool={tool_name} params={params}")
