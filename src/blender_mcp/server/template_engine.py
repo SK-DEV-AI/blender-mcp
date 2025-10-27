@@ -31,6 +31,9 @@ class TemplateManager:
         self.dir = Path(templates_dir)
         self.dir.mkdir(exist_ok=True)
         self.repo = None
+        # Use environment variable for repo path if not provided
+        if repo_path is None:
+            repo_path = os.getenv("TEMPLATES_REPO_PATH", "templates_repo")
         if repo_path and HAS_GIT:
             repo_full = Path(repo_path)
             if not (repo_full / ".git").exists():
@@ -74,6 +77,9 @@ class TemplateManager:
                 self.repo.index.commit(commit_message or f"Update template: {name}")
             except Exception as e:
                 logger.warning(f"Git commit failed: {e}")
+        # Add schema hints for better LLM usage
+        if "tags" not in data:
+            logger.info(f"Hint: Add 'tags' to template '{name}' for better search (e.g., ['animation', 'lighting'])")
         self._log_usage(name, 0.0, True)
         logger.info(f"Saved template '{name}' (type: {data.get('type', 'generic')})")
         return f"Template '{name}' saved."
